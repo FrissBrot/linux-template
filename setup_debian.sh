@@ -11,5 +11,8 @@ apt-get update && apt-get upgrade -y
 # Install basic software
 apt-get install htop mc wget curl unzip ufw -y
 
+# Install git
+apt-get install git -y
+
 # Install docker
 apt-get install docker.io docker-compose -y
