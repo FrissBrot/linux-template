@@ -18,7 +18,7 @@ apt-get install git -y
 apt-get install docker.io docker-compose -y
 
 # Create welcome message
-sed -i "s#PrintMotd no#PrintMotd yes#g" /etc/ssh/sshd_config
+#sed -i "s#PrintMotd no#PrintMotd yes#g" /etc/ssh/sshd_config
 > /etc/motd
 echo "-----------------------------------" >> /etc/motd
 echo "  _____       _     _             " >> /etc/motd
@@ -30,4 +30,5 @@ echo " |_____/ \___|_.__/|_|\__,_|_| |_|" >> /etc/motd
 echo "                                  " >> /etc/motd
 echo "-----------------------------------" >> /etc/motd
 echo "Debian Template by Michi von Ah" >> /etc/motd
-systemctl restart sshd
+
+#systemctl restart sshd
