@@ -18,6 +18,7 @@ apt-get install git -y
 apt-get install docker.io docker-compose -y
 
 # Create welcome message
+# Ascii Art Generator: https://patorjk.com/software/taag/#p=display&c=echo&f=Big&t=Debian
 #sed -i "s#PrintMotd no#PrintMotd yes#g" /etc/ssh/sshd_config
 > /etc/motd
 echo "-----------------------------------" >> /etc/motd
