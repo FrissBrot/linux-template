@@ -9,6 +9,10 @@ Features:
 - Addition for installing sluz certificate
 
 ## Get started
+1. Install git
+    ```bash
+    apt-get install git -y
+    ```
 1. Clone Repo
     ```bash
     git clone https://github.com/michivonah/linux-template.git
@@ -16,4 +20,10 @@ Features:
 1. Run script
     ```bash
     bash setup_debian.sh
+    ```
+
+## One line execution
+1. Run command (not as root)
+    ```bash
+    sudo apt update && sudo apt-get install git -y && git clone https://github.com/michivonah/linux-template.git && sudo bash setup_debian.sh
     ```
