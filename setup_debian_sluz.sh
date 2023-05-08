@@ -14,4 +14,4 @@ wget https://download.lu.ch/sai/sluz_root_ca.crt
 update-ca-certificates
 
 # Start normal setup script
-bash setup_debian.sh
+#bash setup_debian.sh
