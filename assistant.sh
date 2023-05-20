@@ -1,13 +1,25 @@
 #!/bin/bash
 
+#check root permissons
+if [[ $EUID -ne 0 ]]; then
+  echo "Dieses Skript muss als Root ausgeführt werden. Bitte verwenden Sie 'sudo' oder führen Sie es als Root aus."
+  exit 1
+fi
+
+#define options for menu
 options=("install docker" "install sluz certificate" "Option 3" "Exit")
+
+#initialize array for selectet options
 selected=()
+for ((i=0; i<${#options[@]}; i++)); do
+    selected+=(false)
+done
 
 show_menu() {
     clear
-    echo "=== Mein Auswahlmenü ==="
+    echo "=== SLCT Menu ==="
     for ((i=0; i<${#options[@]}; i++)); do
-        if [[ " ${selected[*]} " == *" ${options[$i]} "* ]]; then
+        if [[ ${selected[$i]} == "true" ]]; then
             echo "$((i+1)). [x] ${options[$i]}"
         else
             echo "$((i+1)). [ ] ${options[$i]}"
@@ -18,12 +30,11 @@ show_menu() {
 process_option() {
     if [[ $1 -ge 1 && $1 -le ${#options[@]} ]]; then
         option_index=$((choice-1))
-        option="${options[$option_index]}"
         
-        if [[ " ${selected[*]} " == *" $option "* ]]; then
-            selected=("${selected[@]/$option}")
+        if [[ ${selected[$option_index]} == "true" ]]; then
+            selected[$option_index]="false"
         else
-            selected+=("$option")
+            selected[$option_index]="true"
         fi
     else
         echo "Ungültige Option. Bitte wähle eine gültige Option aus."
@@ -52,28 +63,38 @@ while true; do
 done
 
 echo "Du hast folgende Optionen ausgewählt:"
-for ((i=0; i<${#selected[@]}; i++)); do
-    echo "- ${selected[$i]}"
+for ((i=0; i<${#options[@]}; i++)); do
+    if [ "${selected[$i]}" = "true" ]; then
+        echo "- ${options[$i]}"
+    fi
 done
 
 
 #functions for OS configuration
 setup_ubuntu() {
+    # Überprüfen, ob Docker-Installation ausgewählt wurde
+    if [ "${selected[0]}" = "true" ]; then
+
+        # Installiere Docker
+        echo docker
+        apt-get install docker.io docker-compose -y
+    fi
+
+    # Überprüfen, ob SLUZ-Zertifikat-Installation ausgewählt wurde
+    if [ "${selected[1]}" = "true" ]; then
+        # Installiere SLUZ-Zertifikat
+        echo "Installiere SLUZ-Zertifikat"
+        cd /usr/local/share/ca-certificates/
+        wget https://download.lu.ch/sai/sluz_root_ca.crt
+        update-ca-certificates
+    fi
+
+    # Führe setup_ubuntu.sh aus
     cd assets/skripts/
-    sudo chmod 777 setup_ubuntu.sh
+    chmod 777 setup_ubuntu.sh
     ./setup_ubuntu.sh
-
-    #check if docker install was selectet
-    if [ ${#selected[0]} -gt 0 ]; then
-       # Install docker
-        apt-get install docker.io docker-compose -y 
-    fi
-
-        if [ ${#selected[1]} -gt 0 ]; then
-       # Install slz certificate
-        apt-get install docker.io docker-compose -y 
-    fi
 }
+
 
 #!/bin/bash
 
@@ -82,8 +103,7 @@ os=$(uname -s)
 
 # Prüfen, ob es sich um ein Ubuntu-System handelt
 if [ "$os" == "Linux" ] && [ -f "/usr/bin/apt" ]; then
-    echo "Das Betriebssystem Ubuntu wurde erkannt und wird konfiguriert."
-    echo "Array: ${selected[1]}"
+    echo "Das Betriebssystem wurde als Ubuntu identifiziert und wird jetzt konfiguriert."
     setup_ubuntu
 # Prüfen, ob es sich um ein Debian-System handelt
 elif [ "$os" == "Linux" ] && [ -f "/usr/bin/apt-get" ]; then
