@@ -87,10 +87,11 @@ setup_ubuntu() {
         cd /usr/local/share/ca-certificates/
         wget https://download.lu.ch/sai/sluz_root_ca.crt
         update-ca-certificates
+        cd -
     fi
 
     # Führe setup_ubuntu.sh aus
-    cd assets/skripts/
+    cd assets/skripts
     sudo chmod 777 setup_ubuntu.sh
     ./setup_ubuntu.sh
 }
@@ -103,7 +104,8 @@ os=$(uname -s)
 
 # Prüfen, ob es sich um ein Ubuntu-System handelt
 if [ "$os" == "Linux" ] && [ -f "/usr/bin/apt" ]; then
-    echo "Das Betriebssystem wurde als \e[32mUbuntu\e[0m identifiziert und wird jetzt konfiguriert."
+    #!/bin/bash
+    echo -e "Das Betriebssystem wurde als \e[92mUbuntu\e[0m identifiziert und wird jetzt konfiguriert."
     setup_ubuntu
 # Prüfen, ob es sich um ein Debian-System handelt
 elif [ "$os" == "Linux" ] && [ -f "/usr/bin/apt-get" ]; then
