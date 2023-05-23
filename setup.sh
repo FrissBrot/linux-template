@@ -98,35 +98,56 @@ setup(){
         update-ca-certificates
         cd -
     fi
-}
 
-setup_ubuntu() {
-    # Führe setup_ubuntu.sh aus
+    #move do skripts directory
     cd assets/skripts
-    sudo chmod 777 setup_ubuntu.sh
-    ./setup_ubuntu.sh
+
+    #switch to start the right conig skript
+    case $1 in
+
+        ubuntu)
+            configure_ubuntu
+            ;;
+
+        debian)
+            configure_debian
+            ;;
+
+        *)
+            echo exit
+            exit
+            ;;
+
+    esac
 }
 
+configure_ubuntu() {
+    # start config_ubuntu.sh
+    sudo chmod 777 config_ubuntu.sh
+    ./config_ubuntu.sh
+}
 
-#!/bin/bash
+configure_debian(){
+     # start config_debian.sh
+    sudo chmod 777 config_debian.sh
+    ./config_debian.sh
+}
+
 
 # Betriebssystem auslesen
 os=$(uname -s)
 
 # Prüfen, ob es sich um ein Ubuntu-System handelt
 if [ "$os" == "Linux" ] && [ -f "/usr/bin/apt" ]; then
-    #!/bin/bash
     echo -e "Das Betriebssystem wurde als \e[92mUbuntu\e[0m identifiziert und wird jetzt konfiguriert."
-    setup_ubuntu
+    setup "ubuntu"
 # Prüfen, ob es sich um ein Debian-System handelt
 elif [ "$os" == "Linux" ] && [ -f "/usr/bin/apt-get" ]; then
-    echo "Das Betriebssystem Debian wurde erkannt und wird konfiguriert."
+    echo "Das Betriebssystem wurde als \e[92mDebian\e[0m identifiziert und wird jetzt konfiguriert."
+    setup "debian"
 # Ansonsten Betriebssystem nicht erkannt
 else
     echo "Error: Dieses Betriebssystem wird nicht unterstütz."
-    ./assets/skripts/setup_debian.sh
     exit
 fi
-
-setup()
 exit
