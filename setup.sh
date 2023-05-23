@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Setup
+# Timo Weber - Mai 2023
+
 #check root permissons
 if [[ $EUID -ne 0 ]]; then
   echo "Dieses Skript muss als Root ausgeführt werden. Bitte verwenden Sie 'sudo' oder führen Sie es als Root aus."
@@ -71,12 +74,18 @@ done
 
 
 #functions for OS configuration
-setup_ubuntu() {
+setup(){
+    
+    # Install updates
+    apt-get update && apt-get upgrade -y
+
+    # Install basic software
+    apt-get install htop mc wget curl unzip ufw -y
+
     # Überprüfen, ob Docker-Installation ausgewählt wurde
     if [ "${selected[0]}" = "true" ]; then
 
         # Installiere Docker
-        echo docker
         apt-get install docker.io docker-compose -y
     fi
 
@@ -89,7 +98,9 @@ setup_ubuntu() {
         update-ca-certificates
         cd -
     fi
+}
 
+setup_ubuntu() {
     # Führe setup_ubuntu.sh aus
     cd assets/skripts
     sudo chmod 777 setup_ubuntu.sh
@@ -114,5 +125,8 @@ elif [ "$os" == "Linux" ] && [ -f "/usr/bin/apt-get" ]; then
 else
     echo "Error: Dieses Betriebssystem wird nicht unterstütz."
     ./assets/skripts/setup_debian.sh
+    exit
 fi
+
+setup()
 exit

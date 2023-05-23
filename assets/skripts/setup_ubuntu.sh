@@ -5,14 +5,6 @@
 
 # Run as "root"
 
-# Install updates
-apt-get update && apt-get upgrade -y
-
-# Install basic software
-apt-get install htop mc wget curl unzip ufw -y
-
-echo done
-
 #Variables for wolcome message
 IP_ADDRESS=$(ip addr show enp0s3 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
 GATEWAY=$(ip route | awk '/default/ {print $3}')

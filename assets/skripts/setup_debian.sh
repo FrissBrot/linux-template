@@ -5,13 +5,6 @@
 
 # Run as "root"
 
-# Install updates
-apt-get update && apt-get upgrade -y
-
-# Install basic software
-apt-get install htop mc wget curl unzip ufw -y
-
-
 # Create welcome message
 # Ascii Art Generator: https://patorjk.com/software/taag/#p=display&c=echo&f=Big&t=Debian
 #sed -i "s#PrintMotd no#PrintMotd yes#g" /etc/ssh/sshd_config
