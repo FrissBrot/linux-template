@@ -15,7 +15,7 @@ Features:
     ```
 1. Clone Repo
     ```bash
-    git clone https://github.com/michivonah/linux-template.git
+    git clone https://github.com/FrissBrot/linux-template.git
     ```
 1. Run script
     ```bash
@@ -25,5 +25,5 @@ Features:
 ## One line execution
 1. Run command (not as root)
     ```bash
-    sudo apt update && sudo apt-get install git -y && git clone https://github.com/michivonah/linux-template.git && sudo bash setup_debian.sh
+    sudo apt update && sudo apt-get install git -y && git clone https://github.com/FrissBrot/linux-template.git && sudo bash setup_debian.sh
     ```
